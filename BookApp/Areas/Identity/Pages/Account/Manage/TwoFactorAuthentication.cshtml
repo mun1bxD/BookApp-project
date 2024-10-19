@@ -1,0 +1,90 @@
+﻿
+@page
+@using Microsoft.AspNetCore.Http.Features
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Two-factor authentication (2FA)";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<h3 class="text-gray-800 mb-4 text-2xl font-semibold">@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="bg-white mx-auto max-w-lg space-y-4 rounded-lg p-6 shadow-md">
+    @{
+        var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+        if (consentFeature?.CanTrack ?? true)
+        {
+            if (Model.Is2faEnabled)
+            {
+                if (Model.RecoveryCodesLeft == 0)
+                {
+                    <div class="bg-red-100 border-red-400 text-red-700 rounded-lg border px-4 py-3" role="alert">
+                        <strong class="font-bold">You have no recovery codes left.</strong>
+                        <p>You must <a asp-page="./GenerateRecoveryCodes" class="text-blue-500 underline">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                    </div>
+                }
+                else if (Model.RecoveryCodesLeft == 1)
+                {
+                    <div class="bg-red-100 border-red-400 text-red-700 rounded-lg border px-4 py-3" role="alert">
+                        <strong class="font-bold">You have 1 recovery code left.</strong>
+                        <p>You can <a asp-page="./GenerateRecoveryCodes" class="text-blue-500 underline">generate a new set of recovery codes</a>.</p>
+                    </div>
+                }
+                else if (Model.RecoveryCodesLeft <= 3)
+                {
+                    <div class="bg-yellow-100 border-yellow-400 text-yellow-700 rounded-lg border px-4 py-3" role="alert">
+                        <strong class="font-bold">You have @Model.RecoveryCodesLeft recovery codes left.</strong>
+                        <p>You should <a asp-page="./GenerateRecoveryCodes" class="text-blue-500 underline">generate a new set of recovery codes</a>.</p>
+                    </div>
+                }
+                @if (Model.IsMachineRemembered)
+                {
+                    <form method="post" class="inline-block">
+                        <button type="submit" class="bg-blue-500 text-white rounded-lg px-4 py-2 font-semibold shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Forget this browser
+                        </button>
+                    </form>
+                }
+
+                <div class="mt-4 space-x-2">
+                    <a asp-page="./Disable2fa" class="bg-blue-500 text-white rounded-lg px-4 py-2 font-semibold shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Disable 2FA
+                    </a>
+                    <a asp-page="./GenerateRecoveryCodes" class="bg-blue-500 text-white rounded-lg px-4 py-2 font-semibold shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Reset recovery codes
+                    </a>
+                </div>
+            }
+            <h4 class="text-gray-700 mb-2 mt-6 text-lg font-medium">Authenticator app</h4>
+            @if (!Model.HasAuthenticator)
+            {
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="bg-blue-500 text-white rounded-lg px-4 py-2 font-semibold shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Add authenticator app
+                </a>
+            }
+            else
+            {
+                <di0v class="flex space-x-2">
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="text-white rounded-lg bg-custom-color px-4 py-2 font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Set up authenticator app
+                </a>
+                <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="text-white rounded-lg bg-custom-color px-4 py-2 font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Reset authenticator app
+                </a>
+                </di0v>
+            }
+        }
+        else
+        {
+            <div class="bg-red-100 border-red-400 text-red-700 rounded-lg border px-4 py-3" role="alert">
+                <strong class="font-bold">Privacy and cookie policy have not been accepted.</strong>
+                <p>You must accept the policy before you can enable two-factor authentication.</p>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

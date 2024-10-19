@@ -1,0 +1,45 @@
+﻿@page
+@model EmailModel
+@{
+    ViewData["Title"] = "Manage Email";
+    ViewData["ActivePage"] = ManageNavPages.Email;
+}
+
+<h3 class="text-gray-800 mb-4 text-2xl font-semibold">@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="bg-white mx-auto max-w-lg rounded-lg p-6 shadow-md">
+    <form id="email-form" method="post" class="space-y-4">
+        <div asp-validation-summary="All" class="text-red-500 text-sm" role="alert"></div>
+
+        @if (Model.IsEmailConfirmed)
+        {
+            <div class="relative mb-3 flex items-center space-x-2">
+                <input asp-for="Email" class="form-input text-gray-700 border-gray-300 w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your email" disabled />
+                <span class="text-green-500 font-bold">✓</span>
+                <label asp-for="Email" class="bg-white text-gray-500 absolute -top-2 left-2 px-1 text-sm">Email</label>
+            </div>
+        }
+        else
+        {
+            <div class="relative mb-3">
+                <input asp-for="Email" class="form-input text-gray-700 border-gray-300 block w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your email" disabled />
+                <label asp-for="Email" class="bg-white text-gray-500 absolute -top-2 left-2 px-1 text-sm">Email</label>
+                <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="text-blue-500 mt-1 text-sm underline hover:text-blue-700">Send verification email</button>
+            </div>
+        }
+
+        <div class="relative mb-3">
+            <input asp-for="Input.NewEmail" class="form-input text-gray-700 border-gray-300 block w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="email" aria-required="true" placeholder="New email" />
+            <label asp-for="Input.NewEmail" class="bg-white text-gray-500 absolute -top-2 left-2 px-1 text-sm">New Email</label>
+            <span asp-validation-for="Input.NewEmail" class="text-red-500 text-sm"></span>
+        </div>
+
+        <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="text-white w-full rounded-lg bg-custom-color px-4 py-2 font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Change email
+        </button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

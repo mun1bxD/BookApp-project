@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="mb-16 flex flex-wrap items-center justify-center space-y-2">
+    @foreach (var item in Model)
+    {
+        <div class="border-gray-200 bg-white m-4 w-80 rounded-xl border shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:border-gray-400">
+            
+            <div class="from-gray-100 to-white relative h-48 w-full overflow-hidden rounded-t-xl bg-gradient-to-b">
+                <img src="@Url.Content("~/" + item.Image)" alt="@item.Title" class="h-full w-full object-cover transition-all duration-300 ease-in-out hover:opacity-90" />
+            </div>
+
+     
+            <div class="space-y-3 p-4 py-2 text-center">
+                <h2 class="text-gray-800 text-xl font-semibold transition-all duration-300 ease-in-out hover:text-gray-600">@item.Title</h2>
+                <p class="text-gray-500 text-sm">by <span class="font-bold text-custom-brown">@item.Author</span></p>
+                <p class="text-gray-700 text-lg font-medium">Price: $@item.Price</p>
+            </div>
+   
+            <div class="px-6 pb-2 text-center">
+                <a class="text-white relative inline-block rounded-lg bg-[#51676D] px-6 py-3 font-medium shadow-md transition-all duration-300 hover:bg-[#6d7f84] hover:shadow-lg hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-[#6d7f84]"
+                   asp-controller="Home" asp-action="ProductDetail" asp-route-ProductId="@item.Id">
+                    <span class="opacity-0 absolute inset-0 h-full w-full rounded-lg bg-[#51676D] transition-opacity duration-300 hover:opacity-20"></span>
+                    Details
+                </a>
+            </div>
+        </div>
+    }
+</div>

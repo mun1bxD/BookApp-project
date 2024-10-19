@@ -1,0 +1,68 @@
+﻿@*
+@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<h1>Manage your account</h1>
+
+<div>
+    <h2>Change your account settings</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+*@
+
+@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<h1 class="mb-2 text-xl font-medium">Manage your account</h1>
+
+<div>
+
+    <hr class="border-gray-300 mb-6" />
+
+    <div class="flex flex-col gap-4 md:flex-row">
+        <!-- Navigation Sidebar -->
+        <div class="bg-gray-100 rounded-lg p-4 shadow md:w-1/4">
+
+            <partial name="_ManageNav" />
+
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="md:w-3/4">
+
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

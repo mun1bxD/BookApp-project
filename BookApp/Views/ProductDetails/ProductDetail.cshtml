@@ -1,0 +1,28 @@
+﻿@model Product
+
+
+<div class="mx-auto flex w-3/4 flex-col items-center justify-center rounded-lg shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+    <div class="w-full rounded-lg bg-custom-color py-3">
+        <h1 class="text-white text-center text-2xl font-medium">@Model.Title<span class="text-lg font-normal"><br /> by @Model.Author</span></h1>
+    </div>
+    <div class="flex w-full items-center">
+        <a class="border-2 border-gray-400 m-8 cursor-pointer rounded-lg p-2 font-medium hover:bg-custom-color hover:text-white" asp-controller="Home" asp-action="Index">BACK TO HOME</a>
+    </div>
+    <div class="sapce-x-2 flex h-64 w-full">
+        <div class="flex h-full w-1/2 px-10 pb-12">
+            <img class="h-full w-full" src="@Url.Content("~/" + Model.Image)" alt="@Model.Title" style="max-width: 100%; height: auto;" />
+        </div>
+        <div class="space-y-1">
+            <a href="#" class="text-white rounded-lg bg-custom-brown p-1 font-bold">Action</a>
+            <h2 class="text-gray-400 text-xl">ISBN: @Model.ISBN</h2>
+            <p class="text-gray-400 text-md">  Price: @Model.Price</p>
+            <p class="text-gray-400">@Model.Description</p>
+            <label id="item" class="text-white rounded-lg bg-custom-color p-2"><i class="fa-solid fa-circle-plus"></i> Add Item</label>
+            <input for= type="number" placeholder="Count" class="p-2 focus:outline-none focus:ring-custom-color"/>
+            <div>
+                <button class="bg-gray-400 text-white mt-4 rounded-lg p-2 font-medium">Add to cart (comming soon...)</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@model Product
+<div class="shadow-gray-400 mx-auto mb-16 w-3/4 pb-1 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+    <div class="w-full">
+        <h1 class="text-white rounded-lg bg-custom-color p-4 text-center text-xl font-medium">Delete Item</h1>
+    </div>
+    <div class="">
+        <form action="" method="post" >
+            <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                <input type="hidden" asp-for="Id" />
+                <label class="px-2 text-sm"  asp-for="Title"></label>
+                <input type="text" class="p-2" name=" name" value=@Model.Title disabled />
+            </div>
+            <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                <label class="px-2 text-sm"  asp-for="Id"></label>
+                <input class="p-2" type="text" name="name" value=@Model.Id disabled />
+            </div>
+            <div class="mx-auto my-2 flex w-1/2 justify-between" >
+                <button class="bg-red-600 text-white w-48 rounded-lg p-2" type="submit">Delete</button>
+                <a class="text-white bg-green-600 w-48 rounded-lg p-2 text-center" asp-controller="Product" asp-action="ContentManagement">Back</a>
+            </div>
+        </form>
+    </div>
+</div>

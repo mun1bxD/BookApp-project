@@ -1,0 +1,61 @@
+﻿@model Product
+
+<div class="gray-400 mx-auto mb-16 w-3/4 space-y-4 shadow-md">
+    <div>
+        <h1 class="text-white rounded-lg bg-custom-color p-4 text-center text-xl font-medium">Edit Item</h1>
+    </div>
+    <div class="flex h-36 w-full justify-between">
+        <div class="h-full w-1/2 px-2">
+            <a asp-controller="Product" asp-action="ContentManagement" class="border-2 border-gray-400 rounded-lg p-2 font-medium">BACK TO HOME</a>
+        </div>
+
+        <div class="flex h-full w-1/2">
+            @if (Model.Image != null && Model.Image.Length > 0)
+            {
+                <img src="@Url.Content("~/" + Model.Image)" alt="@Model.Title" style="max-width: 20%; height: auto;" />
+            }
+            else
+            {
+                <p>No image available.</p> 
+            }
+        </div>
+    </div>
+    <div>
+    <form method="post" enctype="multipart/form-data">
+        <div>
+                <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                    <label class="px-2 text-sm" for="productId">Product ID:</label>
+                <input class="p-2" asp-for="Id" type="text" id="productId" value="@Model.Id"  />
+            </div>
+                <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                    <label class="px-2 text-sm" for="productTitle">Product Title:</label>
+                    <input class="p-2"  asp-for="Title" type="text" id="productTitle" value="@Model.Title" />
+            </div>
+                <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                    <label class="px-2 text-sm"  for="author">Author:</label>
+                    <input class="p-2"  asp-for="Author" type="text" id="author" value="@Model.Author" />
+            </div>
+                <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                    <label class="px-2 text-sm" for="price">Price:</label>
+                    <input class="p-2" asp-for="Price" type="text" id="price" value="@Model.Price" />
+            </div>
+                <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                    <label class="px-2 text-sm" for="description">Description:</label>
+                    <input class="p-2" asp-for="Description" type="text" id="description" value="@Model.Description" />
+            </div>
+                <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                    <label class="px-2 text-sm">ISBN:</label>
+                    <input class="p-2"  asp-for="ISBN" type="text" id="description" value="@Model.ISBN" />
+            </div>
+                <div class="shadow-gray-400 my-1 flex flex-col rounded-xl shadow-md">
+                    <label class="px-2 text-sm">change Images</label>
+                    <input class="p-2" asp-for="Image" type="file" accept="image/png, image/jpeg ,image/jpg" name="imageFile" />
+            </div>
+        </div >
+            <div class="shadow-gray-400 my-1 flex space-x-4 rounded-xl px-2 py-4 shadow-md">
+                <button class="text-white rounded-lg bg-custom-color p-2 font-medium" type="submit">click Add item</button>
+                <a class="border-2 rounded-lg p-2 font-medium hover:bg-custom-color hover:text-white" asp-controller="Product" asp-action="ContentManagement">Back to List</a>
+            </div>  
+        </form>
+    </div>
+</div>

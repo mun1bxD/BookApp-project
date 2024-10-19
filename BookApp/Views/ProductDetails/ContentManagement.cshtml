@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Product>
+
+<div class="border-2 mx-auto mb-16 w-4/5 rounded-lg shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+    <div class="bg-custom-color">
+        <h1 class="text-white py-4 text-center text-2xl font-medium">Product List</h1>
+    </div>
+    <div class="flex items-end justify-end p-4">
+        <a asp-controller="Product" asp-action="AddItem" class="text-white rounded-lg bg-custom-color p-2 font-medium"><i class="fa-solid fa-circle-plus"></i> Create new Product</a>
+    </div>
+    <div class="flex flex-row justify-between px-4 py-2">
+        <div class="justify-start space-x-1">
+            <label>Show</label>
+            <select id="options" onchange="FilterItem()">
+                <option value="2">2</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="all">All</option>
+            </select>
+            <label>Entries</label>
+        </div>
+        <div class="justify-end">
+            <label><i class="fa-solid fa-magnifying-glass"></i>     Search:</label>
+            <input type="text" id="SearchRecord" class="p-2 active:outline-none" onkeyup="Search()" placeholder="Search here" />
+        </div>
+    </div>
+    <div class="px-4">
+        <table id="ProductTable" class="w-full whitespace-nowrap p-6 text-xs">
+        <thead class="bg-gray-400">
+                <tr class="">
+                <th class="p-3">ID</th>
+                <th class="p-3">Title</th>
+                <th class="p-3">ISBN</th>
+                <th class="p-3">Author</th>
+                <th class="p-3">Price</th>
+                    <th class="p-3"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach(var item in Model)
+            {
+                 <tr >
+                    <td>@item.Id</td>
+                    <td>@item.Title</td>
+                    <td>@item.ISBN</td>
+                    <td>@item.Author</td>
+                    <td>@item.Price</td>
+                    <td class="py-3">
+                        <div class="flex space-x-4">
+                                <a class="bg-red-500 text-white rounded-lg p-2 font-medium" asp-controller="Product" asp-action="DeleteItem" asp-route-ProductId=@item.Id><i class="fa-solid fa-trash"></i> Delete</a>
+                                <a class="text-white rounded-lg bg-custom-color p-2 font-medium" asp-controller="Product" asp-action="EditItem" asp-route-ProductId="@item.Id"><i class="fa-solid fa-pen-to-square"></i> edit</a>
+                        </div>
+                    </td>
+
+                 </tr>   
+            }
+        </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    
+    function FilterItem(){
+        var selectedNum = document.getElementById("options");
+        var table = document.getElementById("ProductTable");
+        var value=selectedNum.value;
+        var tr=document.getElementsByTagName("tr");
+
+        var totalRow = tr.length - 1;
+
+        var limit = value === "all" ? totalRow : parseInt(value);
+
+        for (var  i = 1; i < tr.length;i++){
+            if(i<=limit){
+                tr[i].style.display = "";
+            }
+            else{
+                tr[i].style.display = "none";
+            }
+        }
+    }
+    function Search() {
+        var searchItem = document.getElementById("SearchRecord");
+        var table = document.getElementById("ProductTable");
+        var filter = searchItem.value.toUpperCase();
+        var tr = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < tr.length; i++) {
+            var id = tr[i].getElementsByTagName("td")[0];
+            var Title = tr[i].getElementsByTagName("td")[1];
+            var ISBN = tr[i].getElementsByTagName("td")[2];
+            var Author = tr[i].getElementsByTagName("td")[3];
+            var Price = tr[i].getElementsByTagName("td")[4];
+
+            if (id || Title || ISBN || Author || Price) {
+                var TextId = id.textContent || id.innerText;
+                var TextTitle = Title.textContent || Title.innerText;
+                var TextISBN = ISBN.textContent || ISBN.innerText;
+                var TextAuthor = Author.textContent || Author.innerText;
+
+                var TextPrice = Price.textContent || Price.innerText;
+                if (TextId.toUpperCase().indexOf(filter) > -1 || TextTitle.toUpperCase().indexOf(filter) > -1
+                    || TextISBN.toUpperCase().indexOf(filter) > -1 || TextAuthor.toUpperCase().indexOf(filter) > -1
+                    || TextPrice.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                }
+                else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+</script>
